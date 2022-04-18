@@ -22,7 +22,6 @@ Dla uproszczenia załóżmy, że:
 - klienci, którzy byli w sklepie, dopiero do niego weszli
 '''
 import random
-import zad1
 
 
 def summ(queue, started_sum):
@@ -41,20 +40,20 @@ def summ(queue, started_sum):
   return sum
 
 
-class Queue(zad1.Queue_end_on_end):
-  ''' class of queue, inherit from Queue_end_on_end
+class Queue():
+  ''' class of queue
     Defined methods:
       __init__ - constructor of this class, it initialize empty queue and modifiers
-      enqueue - method which add element to queue without modifiers
-      enqueue_second - method which add element to queue without modifiers
-      waiting - method which simulate 1 second of time in queue
-      checking - method which check if firs element in queue is 0 (client has been served)
-
-    Inherited methods:
       __str__ - method which returns string representation of queue
+
       dequeue - method which pull element from beginning of queue
       isEmpty - method which check if queue is empty
       size - method which calculate size of queue
+
+       ?? enqueue - method which add element to queue without modifiers
+       ?? enqueue_second - method which add element to queue without modifiers
+      waiting - method which simulate 1 second of time in queue
+      checking - method which check if firs element in queue is 0 (client has been served)
   '''
   def __init__(self, need_time, extra_time):
     ''' constructor of the class, initialize empty queue as python list and modifiers of waiting time
@@ -67,6 +66,17 @@ class Queue(zad1.Queue_end_on_end):
     self.need_time = need_time
     self.items = []
 
+  def __str__(self):
+    ''' return: queue in string representation '''
+    if self.isEmpty():
+      return '<'
+
+    string = ''
+    for item in self.items:
+      string += '<' + str(item)
+
+    return string
+
   def enqueue(self, item):
     ''' function which append element on end of queue
       Arguments:
@@ -74,6 +84,27 @@ class Queue(zad1.Queue_end_on_end):
       return: None
     '''
     self.items.append(item*self.need_time + self.extra_time)
+
+  def dequeue(self):
+    ''' function which remove item from beginning of queue
+      return: removed item
+    '''
+    if self.isEmpty():
+      raise IndexError('can not pop from empty queue')
+    return self.items.pop(0)
+
+  def isEmpty(self):
+    ''' function which check if queue is empty
+      return: True, if queue is empty
+      return: False, if queue is not empty
+    '''
+    return not self.items
+
+  def size(self):
+    ''' function which calculate size of queue
+      return: size of queue
+    '''
+    return len(self.items)
 
   def enqueue_second(self, item):
     ''' function which append element on end of queue
